@@ -1,16 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, StatusBar } from 'react-native';
 import * as Brightness from 'expo-brightness';
+import BackButton from './BackButton'
 
 export default class Bright extends Component {
 
-  /*   constructor() {
-      super();
+  /*constructor(props) {
+      super(props);
       this.state = {
-        bright: 0.1,
-      };
-    } */
+          bright: 0.1,
+        };
+      console.log(props)
+      }  */
 
   state = {
     bright: 0.1,
@@ -18,20 +19,23 @@ export default class Bright extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>0 até 1</Text>
-        <Text style={styles.text}>Brilho = {this.state.bright}</Text>
-        <TextInput
-          style={{...styles.text, ...styles.textInput}}
-          onChangeText={this.changeBright.bind(this)}
-          value={null}
-        />
-        <StatusBar style="auto" />
+      <View style={styles.vScreen}>
+        <BackButton changeScreen={this.props.changeScreen} />
+        <View style={styles.vBrilho}>
+          <Text style={styles.text}>0 até 1</Text>
+          <Text style={styles.text}>Brilho = {this.state.bright}</Text>
+          <TextInput
+            style={{ ...styles.text, ...styles.textInput }}
+            onChangeText={this.changeBright.bind(this)}
+            value={null}
+          />
+          <StatusBar style="auto" />
+        </View>
       </View>
     );
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
   }
 
   changeBright(text) {
@@ -55,11 +59,11 @@ export default class Bright extends Component {
 
 
 const styles = StyleSheet.create({
-  container: {
+  vBrilho: {
     flex: 1,
-    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
+    
   },
 
   text: {
@@ -68,8 +72,14 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-    borderColor: 'white', 
-    borderWidth: 2, 
+    borderColor: 'white',
+    borderWidth: 2,
     width: 350
+  },
+
+  vScreen: {
+    flexGrow: 1,
+    backgroundColor: 'black',
   }
+
 });

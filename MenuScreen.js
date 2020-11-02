@@ -3,24 +3,39 @@ import { Text, Button, ScrollView, StyleSheet, StatusBar, View } from 'react-nat
 import Bright from './Bright'
 
 export default class MainMenu extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
-
-        StatusBar.setBarStyle('light-content');
-        
+        this.state = {
+            screen: 'MenuScreen',
+        };
     }
 
     render() {
-        return (
-            <ScrollView contentContainerStyle={styles.container} >
-                <View style={styles.item}>
-                    <Button color={'blue'} title={"Bright"} onPress={null} />
-                </View>
-            </ScrollView>
-        )
+        switch(this.state.screen){
+            case 'Bright':
+                return <Bright changeScreen={this.changeScreen}/>
+            default:
+                return <MenuScreen changeScreen={this.changeScreen}/>
+        }
     }
 
-    enterBright = () => <Bright />
+
+    changeScreen = (screen) => {
+        return () => {
+            this.setState({screen: screen})
+        }
+    }
+}
+
+function MenuScreen(props){
+    const {changeScreen} = props;
+    return (
+        <ScrollView contentContainerStyle={styles.container} >
+            <View style={styles.item}>
+                <Button color={'#A72300'} title={"Bright"} onPress={changeScreen("Bright")} />
+            </View>
+        </ScrollView>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -52,3 +67,28 @@ const returnAnObjectWithANewKeyValuePair = (obj, key) => ({key, ...obj})
 
 */
 
+/*
+render() {
+  <View>
+    {
+      switch(this.state.screen) {
+        case 'firstScreen': (
+          <View>
+            <Text>First Screen</Text>
+            <TouchableHighlight onPress={this.setScreen('secondScreen')}>
+              <Text>Go to second screen</Text>
+            </TouchableHighlight>
+          </View>
+        )
+        case 'secondScreen': (
+          <View>
+            <Text>Second Screen</Text>
+            <TouchableHighlight onPress={this.setScreen('firstScreen')}>
+              <Text>Go to first screen</Text>
+            </TouchableHighlight>
+          </View>
+        )
+      }
+    }
+  </View>
+*/

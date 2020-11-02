@@ -1,9 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
+//import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 import MainMenu from './MenuScreen';
 
 export default function App() {
+  //StatusBar.setBarStyle('light-content');
   return (
     <View style={styles.container}>
       <MainMenu />
