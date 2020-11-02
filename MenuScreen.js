@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     item: {
         //flexGrow: 1,
         //flexShrink: 2,
-        //padding: 30,
+        //padding: 29,
         paddingHorizontal: 30,
         paddingVertical: 20,
     },
