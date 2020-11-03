@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, StatusBar } from 'react-native'
+import PropTypes from 'prop-types'
 import BackButton from './BackButton'
 
 const MyScreen = props => {
@@ -12,10 +13,15 @@ const MyScreen = props => {
     )
 }
 
+MyScreen.propTypes = {
+    changeScreen: PropTypes.func.isRequired,
+}
+
 const styles = StyleSheet.create({
     vScreen: {
         flexGrow: 1,
         backgroundColor: 'black',
+        paddingTop: StatusBar.currentHeight,
     },
 })
 

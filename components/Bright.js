@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View, Dimensions } from 'react-native';
 import * as Brightness from 'expo-brightness';
+import PropTypes from 'prop-types'
 import MyScreen from './MyScreen'
 
 export default class Bright extends Component {
@@ -47,6 +48,9 @@ export default class Bright extends Component {
 
 }
 
+Bright.propTypes = {
+  changeScreen: PropTypes.func.isRequired,
+}
 
 const styles = StyleSheet.create({
   vBrilho: {
@@ -63,7 +67,7 @@ const styles = StyleSheet.create({
 
   textInput: {
     textAlign: 'center',
-    borderColor: 'white',
+    borderColor: '#A72300',
     borderWidth: 2,
     width: Dimensions.get('screen').width,
   },

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import {Button, StyleSheet, View, StatusBar} from 'react-native';
 
 export default function BackButton(props){
@@ -9,11 +10,14 @@ export default function BackButton(props){
     )
 }
 
+BackButton.propTypes = {
+    changeScreen: PropTypes.func.isRequired,
+}
+
 const styles = StyleSheet.create({
     bBack: {
         justifyContent: 'flex-start',
         width: '20%',
-        paddingTop: StatusBar.currentHeight,
         //alignItems: '',
     }
 })

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Text, Button, ScrollView, StyleSheet, StatusBar, View } from 'react-native'
+import { Button, ScrollView, StyleSheet, StatusBar, View } from 'react-native'
+import PropTypes from 'prop-types'
 import Bright from './Bright'
+import Dice from './Dice'
 
 export default class MainMenu extends Component {
     constructor(props) {
@@ -14,6 +16,8 @@ export default class MainMenu extends Component {
         switch(this.state.screen){
             case 'Bright':
                 return <Bright changeScreen={this.changeScreen}/>
+            case 'Dice':
+                return <Dice changeScreen={this.changeScreen}/>
             default:
                 return <MenuScreen changeScreen={this.changeScreen}/>
         }
@@ -27,15 +31,26 @@ export default class MainMenu extends Component {
     }
 }
 
+
+
 function MenuScreen(props){
     const {changeScreen} = props;
     return (
         <ScrollView contentContainerStyle={styles.container} >
             <View style={styles.item}>
-                <Button color={'#A72300'} title={"Bright"} onPress={changeScreen("Bright")} />
+                <Button color={'#A72300'} title={"Brilho"} onPress={changeScreen("Bright")} />
+            </View>
+            <View style={styles.item}>
+                <Button color={'#A72300'} title={"Dado"} onPress={changeScreen("Dice")} />
             </View>
         </ScrollView>
     );
+}
+
+
+
+MenuScreen.propTypes = {
+  changeScreen:  PropTypes.func.isRequired,
 }
 
 const styles = StyleSheet.create({
