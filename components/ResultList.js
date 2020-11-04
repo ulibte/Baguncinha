@@ -4,7 +4,7 @@ import { SectionList, View } from 'react-native'
 
 const ResultList = props => {
     return (
-        <SectionList>
+        <SectionList >
 
         </SectionList>
     )
