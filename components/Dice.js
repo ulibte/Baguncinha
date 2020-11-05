@@ -10,7 +10,8 @@ class Dice extends Component {
     state = {
         diceResult: 0,
         diceMax: 6,
-        results: [{title: '', data: []},],
+        results: [{ title: '', data: [] },],
+        disableRollButton: false,
     }
 
     render() {
@@ -19,12 +20,13 @@ class Dice extends Component {
                 <View style={styles.container}>
                     <Text style={styles.text} >{'Resultado'}</Text>
                     <Text style={styles.result}>{this.state.diceResult}</Text>
-                    <Button color={'red'} title={'   Lançar   '} onPress={this.roll} />
+                    <Button disabled={this.state.disableRollButton}
+                        color={'red'} title={'   Lançar   '} onPress={this.roll} />
                     <Text style={styles.text}>Número de lados</Text>
                     <TextInput style={{ ...styles.text, ...styles.textInput }}
                         keyboardType={'numeric'}
-                        onChangeText={this.changeMax.bind(this)} 
-                        value={String(this.state.diceMax)}/>
+                        onChangeText={this.changeMax.bind(this)}
+                        value={String(this.state.diceMax)} />
                     <Text style={styles.text}>Histórico</Text>
                     <ResultList results={this.state.results} />
                 </View>
@@ -33,7 +35,7 @@ class Dice extends Component {
     }
 
     roll = () => {
-        const max = this.state.diceMax
+        const max = Number(this.state.diceMax)
         const results = this.state.results
         const result = Math.floor(Math.random() * max) + 1;
         const resultObj = { result: result, key: ++keyResult }
@@ -47,14 +49,19 @@ class Dice extends Component {
             results: newResults
         })
         console.log(keyResult) //----------------------------------------------------
-        
+
     }
 
-    changeMax = number => {
-        number = Math.floor(number)
-        if (number >= 0)
-            this.setState({ diceMax: number })
+    changeMax = inputNumber => {
+        const diceMax =  inputNumber
+        this.setState({ diceMax })
+        if(inputNumber >= 2 && Number.isInteger(Number(inputNumber)))
+            this.setState({disableRollButton: false})
+        else
+            this.setState({disableRollButton: true})
     }
+
+
 }
 
 const changeFirstIndex = (array, result, max) => {
@@ -88,7 +95,7 @@ const styles = StyleSheet.create({
     result: {
         color: 'yellow',
         fontSize: 100,
-    }, 
+    },
 })
 
 export default Dice
