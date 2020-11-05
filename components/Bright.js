@@ -31,7 +31,6 @@ export default class Bright extends Component {
   }
 
   changeBright(number) {
-    console.log();
     if (number <= 1 && number > 0) {
       number = Math.abs(number);
       this.setState({ bright: number });

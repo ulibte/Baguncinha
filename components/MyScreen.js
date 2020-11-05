@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, StatusBar } from 'react-native'
+import { View, StyleSheet, StatusBar, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
 import BackButton from './BackButton'
 

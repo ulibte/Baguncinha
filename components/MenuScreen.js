@@ -72,12 +72,3 @@ const styles = StyleSheet.create({
     },
 })
 
-/*
-const rand = (max, min = 0) => Math.floor(Math.random() * (max - min +1)) + min
-
-const templateLiteral = `${() => "return to a string"} and the string continue...`
-
-const returnAnObjectWithANewKeyValuePair = (obj, key) => ({key, ...obj})
-
-
-*/
