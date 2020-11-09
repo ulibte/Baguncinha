@@ -28,7 +28,7 @@ class Dice extends Component {
                         keyboardType={'numeric'}
                         onChangeText={this.changeMax.bind(this)}
                         value={String(this.state.diceMax)} />
-                        
+
                     <Text style={styles.text}>Histórico</Text>
                     <ResultList resultsSections={this.state.resultsSections} />
                 </View>
@@ -38,31 +38,32 @@ class Dice extends Component {
 
     roll = () => {
         const max = Number(this.state.diceMax)
-        const {resultsSections} = this.state
+        const { resultsSections } = this.state
         const result = Math.floor(Math.random() * max) + 1; //dice random number
         const resultData = { result: result, key: ++keyResult }
 
         this.setState({ diceResult: result });
         this.setState({
-            resultsSections: addNewResult(resultsSections, resultData, max)}//creating a result object for the retults array
-            )
+            resultsSections:
+                addNewResult(resultsSections, resultData, max)
+        }) //creating a result object for the retults array
         //console.log(keyResult) //----------------------------------------------------
         //console.log(this.state.resultsSections)
 
     }
 
-    changeMax(inputNumber){
-        const diceMax =  inputNumber
+    changeMax(inputNumber) {
+        const diceMax = inputNumber
         this.setState({ diceMax }, this.validateDiceMax(inputNumber))
-        
+
     }
 
     validateDiceMax = x => {
         return () => {
-            if(x >= 2 && Number.isInteger(Number(x)))
-            this.setState({disableRollButton: false})
+            if (x >= 2 && Number.isInteger(Number(x)))
+                this.setState({ disableRollButton: false })
             else
-            this.setState({disableRollButton: true})
+                this.setState({ disableRollButton: true })
         }
     }
 
