@@ -8,7 +8,7 @@ const ResultList = props => {
     <SectionList
       style={styles.sectionList}
       contentContainerStyle={styles.contentContainer}
-      sections={props.results}
+      sections={props.resultsSections}
       renderItem={(data) => <ResultItem item={data.item} />}
       renderSectionHeader={({ section }) => (<RenderSectionTitle title={section.title}/>)}
     />
@@ -30,7 +30,7 @@ const ResultItem = ({item})  => {// same as: const {item} = props; or const item
 
 
 ResultList.propTypes = {
-  results: PropTypes.array,
+  resultsSections: PropTypes.array,
 }
 
 const styles = StyleSheet.create({

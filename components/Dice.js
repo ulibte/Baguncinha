@@ -10,7 +10,7 @@ class Dice extends Component {
     state = {
         diceResult: 0,
         diceMax: 6,
-        results: [{ title: '', data: [] },],
+        resultsSections: [{ title: '', data: [] },],
         disableRollButton: false,
     }
 
@@ -23,12 +23,14 @@ class Dice extends Component {
                     <Button disabled={this.state.disableRollButton}
                         color={'red'} title={'   Lançar   '} onPress={this.roll} />
                     <Text style={styles.text}>Número de lados</Text>
+
                     <TextInput style={{ ...styles.text, ...styles.textInput }}
                         keyboardType={'numeric'}
                         onChangeText={this.changeMax.bind(this)}
                         value={String(this.state.diceMax)} />
+                        
                     <Text style={styles.text}>Histórico</Text>
-                    <ResultList results={this.state.results} />
+                    <ResultList resultsSections={this.state.resultsSections} />
                 </View>
             </MyScreen>
         )
@@ -36,35 +38,39 @@ class Dice extends Component {
 
     roll = () => {
         const max = Number(this.state.diceMax)
-        const results = this.state.results
-        const result = Math.floor(Math.random() * max) + 1;
-        const resultObj = { result: result, key: ++keyResult }
+        const {resultsSections} = this.state
+        const result = Math.floor(Math.random() * max) + 1; //dice random number
+        const resultData = { result: result, key: ++keyResult }
 
         this.setState({ diceResult: result });
-
-        //creating a result object for the retults array 
-        const newResults = changeFirstIndex(results, resultObj, max)
-
         this.setState({
-            results: newResults
-        })
-        console.log(keyResult) //----------------------------------------------------
+            resultsSections: addNewResult(resultsSections, resultData, max)}//creating a result object for the retults array
+            )
+        //console.log(keyResult) //----------------------------------------------------
+        //console.log(this.state.resultsSections)
 
     }
 
-    changeMax = inputNumber => {
+    changeMax(inputNumber){
         const diceMax =  inputNumber
-        this.setState({ diceMax })
-        if(inputNumber >= 2 && Number.isInteger(Number(inputNumber)))
-            this.setState({disableRollButton: false})
-        else
-            this.setState({disableRollButton: true})
+        this.setState({ diceMax }, this.validateDiceMax(inputNumber))
+        
     }
+
+    validateDiceMax = x => {
+        return () => {
+            if(x >= 2 && Number.isInteger(Number(x)))
+            this.setState({disableRollButton: false})
+            else
+            this.setState({disableRollButton: true})
+        }
+    }
+
 
 
 }
 
-const changeFirstIndex = (array, result, max) => {
+const addNewResult = (array, result, max) => {
     if (array[0].title === `d${max}`) {
         return [{ title: array[0].title, data: [result, ...array[0].data] },
         ...array.slice(1)]
