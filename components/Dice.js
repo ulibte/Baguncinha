@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { TextInput, View, Text, StyleSheet, Button } from 'react-native'
+import { TextInput, View, Text, StyleSheet, Button, KeyboardAvoidingView } from 'react-native'
 import MyScreen from './MyScreen'
 import ResultList from './ResultList'
 
@@ -17,13 +17,13 @@ class Dice extends Component {
     render() {
         return (
             <MyScreen changeScreen={this.props.changeScreen}>
-                <View style={styles.container}>
+                <KeyboardAvoidingView behavior='padding' style={styles.container}>
                     <Text style={styles.text} >{'Resultado'}</Text>
                     <Text style={styles.result}>{this.state.diceResult}</Text>
                     <Button disabled={this.state.disableRollButton}
                         color={'red'} title={'   Lançar   '} onPress={this.roll} />
                     <Text style={styles.text}>Número de lados</Text>
-
+                    
                     <TextInput style={{ ...styles.text, ...styles.textInput }}
                         keyboardType={'numeric'}
                         onChangeText={this.changeMax.bind(this)}
@@ -31,7 +31,7 @@ class Dice extends Component {
 
                     <Text style={styles.text}>Histórico</Text>
                     <ResultList resultsSections={this.state.resultsSections} />
-                </View>
+                </KeyboardAvoidingView>
             </MyScreen>
         )
     }
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         alignItems: 'center',
+        justifyContent: 'flex-end', //KeyboardAvoidingView need this to paddingBottom the textInput
     },
     text: {
         color: 'white',
@@ -98,6 +99,7 @@ const styles = StyleSheet.create({
         borderColor: '#A72300',
         borderWidth: 2,
         width: '50%',
+        //paddingTop: 250,
     },
     result: {
         color: 'yellow',
