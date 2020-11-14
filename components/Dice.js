@@ -21,12 +21,12 @@ class Dice extends Component {
                     <Text style={styles.text} >{'Resultado'}</Text>
                     <Text style={styles.result}>{this.state.diceResult}</Text>
                     <Button disabled={this.state.disableRollButton}
-                        color={'red'} title={'   Lançar   '} onPress={this.roll} />
+                        color={'red'} title={'   Lançar   '} onPress={this.roll.bind(this)} />
                     <Text style={styles.text}>Número de lados</Text>
-                    
+
                     <TextInput style={{ ...styles.text, ...styles.textInput }}
                         keyboardType={'numeric'}
-                        onChangeText={this.changeMax.bind(this)}
+                        onChangeText={this.changeMax}
                         value={String(this.state.diceMax)} />
 
                     <Text style={styles.text}>Histórico</Text>
@@ -36,7 +36,14 @@ class Dice extends Component {
         )
     }
 
-    roll = () => {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.diceMax != this.state.diceMax) {
+            this.validateDiceMax(this.state.diceMax)
+        }
+
+    }
+
+    roll() {
         const max = Number(this.state.diceMax)
         const { resultsSections } = this.state
         const result = Math.floor(Math.random() * max) + 1; //dice random number
@@ -52,19 +59,23 @@ class Dice extends Component {
 
     }
 
+    getHandler = key => inputNumber => {
+        this.setState({ [key]: inputNumber }, () => { console.log(`key=${key}, value=${inputNumber}`) })
+    }
+
+    changeMax = this.getHandler('diceMax')
+
     changeMax(inputNumber) {
         const diceMax = inputNumber
-        this.setState({ diceMax }, this.validateDiceMax(inputNumber))
+        this.setState({ diceMax },)
 
     }
 
     validateDiceMax = x => {
-        return () => {
-            if (x >= 2 && Number.isInteger(Number(x)))
-                this.setState({ disableRollButton: false })
-            else
-                this.setState({ disableRollButton: true })
-        }
+        if (x >= 2 && Number.isInteger(Number(x)))
+            this.setState({ disableRollButton: false })
+        else
+            this.setState({ disableRollButton: true })
     }
 
 
