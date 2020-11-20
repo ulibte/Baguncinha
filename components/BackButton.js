@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import {Button, StyleSheet, View, StatusBar} from 'react-native';
+import {Button, StyleSheet, View} from 'react-native';
 
-export default function BackButton(props){
+export default function BackButton({navigate}){
     return (
         <View style={styles.bBack}>
-            <Button title={'<-'} color={'#A72300'} onPress={props.changeScreen('')} />
+            <Button title={'<-'} color={'#A72300'} onPress={() => navigate('Menu')} />
         </View>
     )
 }
 
 BackButton.propTypes = {
-    changeScreen: PropTypes.func.isRequired,
+    navigate: PropTypes.func
 }
 
 const styles = StyleSheet.create({
