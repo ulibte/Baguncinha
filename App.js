@@ -8,6 +8,7 @@ import Bright from './screens/Bright';
 
 export default function App() {
   StatusBar.setBarStyle('light-content');
+  StatusBar.setBackgroundColor('black')
   return (
     <View style={styles.container}>
       <AppMenu />
