@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 
-export default function MenuScreen({navigation}){
+function MenuScreen({navigation}){
     return (
         <ScrollView contentContainerStyle={styles.container} >
             <View style={styles.item}>
@@ -38,3 +38,5 @@ const styles = StyleSheet.create({
     },
 })
 
+
+export default MenuScreen;
