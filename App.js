@@ -15,7 +15,8 @@ export default function App() {
     StatusBar.setBackgroundColor('black')
 
     const [isLogged, setIsLogged] = useState(false)
-    isLoggedIn().then(res => setIsLogged(res))
+    //isLoggedIn().then(res => setIsLogged(res))
+    
 
     return (
         <View style={styles.container}>
