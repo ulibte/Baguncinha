@@ -11,6 +11,10 @@ function MenuScreen({navigation}){
             <View style={styles.item}>
                 <Button color={'#A72300'} title={"Dado"} onPress={() => navigation.navigate('Dice')} />
             </View>
+            <View style={styles.item}>
+                <Button color={'#A72300'} title={"Palavra Aleatória"} onPress={() => navigation.navigate('RWord')} />
+            </View>
+            
         </ScrollView>
     );
 }

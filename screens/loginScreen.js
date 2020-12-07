@@ -18,15 +18,14 @@ export default class LoginScreen extends Component {
             <TextInput placeholder={"Senha"} onChangeText={password => this.setState({password})}/>
             <Text>{this.state.errorText}</Text>
             <Button title={'Entrar'} onPress={this.loginHandler}/>
+            <Button title={'Entrar Debug'} onPress={() => this.props.route.params.setIsLogged(true)} />
         </View>)
     }
 
     loginHandler = async () => {
-        console.log(this.state.username);
         try {
-            const loginRes = await login(this.state.username, this.state.password)
-
-            console.log("login sucess");
+            const loginSucess = await login(this.state.username, this.state.password)
+            this.props.route.params.setIsLogged(true);
         } catch ({message}) {
             this.setState({errorText: message})
         }

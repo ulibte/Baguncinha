@@ -4,11 +4,12 @@ import { View, StyleSheet, StatusBar } from 'react-native';
 import MenuScreen from './screens/MenuScreen';
 import Dice from './screens/Dice';
 import Bright from './screens/Bright';
+import RandomWord from './screens/RandomWord'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from './screens/loginScreen'
 import LoginScreen from './screens/loginScreen';
-import { isLoggedIn } from './api'
+import WordOptions from './screens/WordOptions';
+
 
 export default function App() {
     StatusBar.setBarStyle('light-content');
@@ -20,7 +21,7 @@ export default function App() {
 
     return (
         <View style={styles.container}>
-            <AppMenuNavigator isLogged={isLogged}/>
+            <AppMenuNavigator isLogged={isLogged} setIsLogged={setIsLogged}/>
         </View>
     );
 }
@@ -29,14 +30,15 @@ const AppStack = createStackNavigator()
 
 const AppMenuNavigator = props => (
     <NavigationContainer>
-        {console.log(`prop logged = ${props.isLogged}`)}
         {props.isLogged ? (<AppStack.Navigator screenOptions={{headerShown: false,}}>
             <AppStack.Screen name="Menu" component={MenuScreen}/>
             <AppStack.Screen name="Bright" component={Bright}/>
             <AppStack.Screen name="Dice" component={Dice}/>
+            <AppStack.Screen name="RWord" component={RandomWord} initialParams={{max: 5, min: 2}}/>
+            <AppStack.Screen name="RWordOp" component={WordOptions}/>
         </AppStack.Navigator>) : (
-            <AppStack.Navigator screenOptions={{headerShown: false,}}>
-            <AppStack.Screen name="Login" component={LoginScreen}/>
+        <AppStack.Navigator >
+            <AppStack.Screen name="Login" component={LoginScreen} initialParams={{setIsLogged: props.setIsLogged}}/>
         </AppStack.Navigator>
         )}
     </NavigationContainer>

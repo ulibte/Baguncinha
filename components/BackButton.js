@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import {Button, StyleSheet, View} from 'react-native';
 
-export default function BackButton({navigate}){
+export default function BackButton({pop}){
     return (
         <View style={styles.bBack}>
-            <Button title={'<-'} color={'#A72300'} onPress={() => navigate('Menu')} />
+            <Button title={'<-'} color={'#A72300'} onPress={() => pop(1)} />
         </View>
     )
 }
 
 BackButton.propTypes = {
-    navigate: PropTypes.func
+    pop: PropTypes.func
 }
 
 const styles = StyleSheet.create({

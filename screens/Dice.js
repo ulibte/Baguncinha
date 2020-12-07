@@ -16,7 +16,7 @@ class Dice extends Component {
 
     render() {
         return (
-            <BackMenu navigate={this.props.navigation.navigate}>
+            <BackMenu pop={this.props.navigation.pop}>
                 <KeyboardAvoidingView behavior='padding' style={styles.container}>
                     <Text style={styles.text} >{'Resultado'}</Text>
                     <Text style={styles.result}>{this.state.diceResult}</Text>

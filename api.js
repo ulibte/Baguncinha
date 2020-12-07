@@ -1,3 +1,4 @@
+import { LogBox } from "react-native";
 
 
 export const login = async (username, password) => {
@@ -14,4 +15,11 @@ export const login = async (username, password) => {
     }else{
         throw new Error(responseText)
     }
+}
+
+export async function getRandomWord(maxSize = 5, minSize = 2){
+    const uri = `http://10.0.2.2:3000/randomWord?${'max='+maxSize}&${'min='+minSize}`
+    const response = await fetch(uri)
+    const {word} = await response.json()
+    return word
 }

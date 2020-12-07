@@ -6,14 +6,14 @@ import BackButton from './BackButton'
 const BackMenu = props => {
     return (
         <View style={styles.vScreen}>
-            <BackButton  navigate={props.navigate}/>
+            <BackButton  pop={props.pop}/>
             {props.children}
         </View>
     )
 }
 
 BackMenu.propTypes = {
-    navigate: PropTypes.func
+    pop: PropTypes.func
 }
 
 const styles = StyleSheet.create({

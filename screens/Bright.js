@@ -12,7 +12,7 @@ export default class Bright extends Component {
 
   render() {
     return (
-      <BackMenu navigate={this.props.navigation.navigate}>
+      <BackMenu pop={this.props.navigation.pop}>
         <View style={styles.vBrilho}>
           <Text style={styles.text}>0 até 1</Text>
           <Text style={styles.text}>Brilho = {this.state.bright}</Text>
