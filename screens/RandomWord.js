@@ -5,8 +5,11 @@ import { getRandomWord } from '../api'
 import BackMenu from '../components/BackMenu'
 
 export default class RandomWord extends Component {
+
 	static propTypes = {
-		//prop: PropTypes
+		route: PropTypes.shape({
+			params: PropTypes.object
+		})
 	}
 
 	state = {
@@ -34,18 +37,29 @@ export default class RandomWord extends Component {
 		)
 	}
 
+	/* componentDidUpdate(prevProps) {
+		if (prevProps.route.params?.selection !== this.props.route.params?.selection) {
+		  const result = this.props.route.params?.selection;
+	  
+		  this._onSelectCountry(result);
+		}
+	} */
+
 	componentDidMount(){
 		this.props.navigation.addListener('focus', () => {
-			this.setState({maxSize: this.props.route.params.max,
-				minSize: this.props.route.params.min})
+			console.log('focus');
+			this.setState({
+				maxSize: this.props.route.params.max,
+				minSize: this.props.route.params.min
+			})
 		})
 	}
 
 	getWordHandler = async () => {
-		const word = await getRandomWord(this.state.maxSize, this.state.minSize)
-		this.setState({ word })
 		console.log(this.state.maxSize);
 		console.log(this.props.route.params);
+		const word = await getRandomWord(this.state.maxSize, this.state.minSize)
+		this.setState({ word })
 	}
 
 }

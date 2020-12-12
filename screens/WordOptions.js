@@ -1,23 +1,21 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { Button, View, StyleSheet, TextInput, Text } from 'react-native'
 import BackMenu from '../components/BackMenu'
-import { CommonActions } from '@react-navigation/native';
+import PropTypes from 'prop-types'
 
 
-const WordOptions = props => {
+const WordOptions = ({ navigation, route: {params} }) => {
 
-    const {max, min} = props.route.params
+    const {max, min} = params
     const [maxOptions, setMaxOptions] = useState(max)
     const [minOptions, setMinOptions] = useState(min)
 
     const ConfirmHandler = () => {
-        props.navigation.dispatch(CommonActions.setParams({ max: maxOptions, min: minOptions }))
-        props.navigation.navigate('RWord', {max: maxOptions, min: minOptions})
+        navigation.navigate('RWord', {max: maxOptions, min: minOptions})
     }
 
     return (
-        <BackMenu pop={props.navigation.pop}>
+        <BackMenu pop={navigation.pop}>
             <View style={styles.container}>
                 <Text style={styles.text}>{'Maximo de sílabas'}</Text>
                 <TextInput style={styles.textInput}
@@ -38,7 +36,9 @@ const WordOptions = props => {
 }
 
 WordOptions.propTypes = {
-
+    route: PropTypes.shape({
+        params: PropTypes.object
+    })
 }
 
 const styles = StyleSheet.create({

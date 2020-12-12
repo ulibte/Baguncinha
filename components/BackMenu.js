@@ -13,7 +13,8 @@ const BackMenu = props => {
 }
 
 BackMenu.propTypes = {
-    pop: PropTypes.func
+    pop: PropTypes.func,
+    children: PropTypes.element
 }
 
 const styles = StyleSheet.create({
