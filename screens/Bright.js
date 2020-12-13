@@ -8,8 +8,8 @@ import Slider from '@react-native-community/slider';
 export default class Bright extends Component {
 
   state = {
-    bright: 0.1,
-    systemBright: null,
+    bright: null,
+    brightBar: null,
   }
 
   render() {
@@ -17,7 +17,7 @@ export default class Bright extends Component {
       <BackMenu pop={this.props.navigation.pop}>
         <View style={styles.vBrilho}>
           <Text style={styles.text}>0 até 1</Text>
-          <Text style={styles.text}>Brilho: {this.state.systemBright}</Text>
+          <Text style={styles.text}>Brilho: {this.state.bright}</Text>
           <TextInput
             keyboardType={'numeric'}
             style={{ ...styles.text, ...styles.textInput }}
@@ -31,6 +31,8 @@ export default class Bright extends Component {
             minimumTrackTintColor="#FFFFFF"
             maximumTrackTintColor="#A72300"
             onValueChange={this.changeBrightAsync.bind(this)}
+            value={this.state.brightBar}
+            onSlidingComplete={null}
           />
         </View>
       </BackMenu>
@@ -53,30 +55,27 @@ export default class Bright extends Component {
 
   async setBrightnessStateAsync() {
     const brightness = await Brightness.getSystemBrightnessAsync()
-    if (this.state.systemBright !== brightness) {
-      this.setState({ systemBright: brightness })
+    if (this.state.bright !== brightness) {
+      this.setState({ bright: brightness})
     }
   }
 
   async changeBrightAsync(value) {
-    if (value <= 1 && value > 0) {
-      value = Math.abs(value);
-      this.setState({ bright: value });
-
-      const response = await Brightness.getPermissionsAsync()
-      if (response.granted) {
-        await Brightness.setSystemBrightnessAsync(this.state.bright)
+    this.setState({brightBar: value})
+    const response = await Brightness.getPermissionsAsync()
+    if (response.granted) {
+      await Brightness.setSystemBrightnessAsync(value)
+    } else {
+      const { granted } = await Brightness.requestPermissionsAsync();
+      if (granted) {
+        await Brightness.setSystemBrightnessAsync(value)
       } else {
-        const {granted} = await Brightness.requestPermissionsAsync();
-        if (granted) {
-          await Brightness.setSystemBrightnessAsync(this.state.bright)
-        } else {
-          alert('Sem permissão')
-        }
+        alert('Sem permissão')
       }
-      await this.setBrightnessStateAsync()
     }
+    await this.setBrightnessStateAsync()
   }
+
 
 
 
