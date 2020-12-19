@@ -4,20 +4,17 @@ import * as Brightness from 'expo-brightness';
 import PropTypes from 'prop-types'
 import BackMenu from '../components/BackMenu'
 import Slider from '@react-native-community/slider';
+import { connect } from 'react-redux';
+import { setBrightSystem, setBrightSliderBar } from "../redux/actionCreators";
 
-export default class Bright extends Component {
-
-  state = {
-    brightSystem: 0,
-    brightSliderBar: null,
-  }
+class Bright extends Component {
 
   render() {
     return (
       <BackMenu pop={this.props.navigation.pop}>
         <View style={styles.vBrilho}>
           <Text style={styles.text}>Brilho</Text>
-          <Text style={styles.text}>{this.transformNumberBright(this.state.brightSystem)}</Text>
+          <Text style={styles.text}>{this.transformNumberBright(this.props.brightSystem)}</Text>
           <Slider
             style={{ width: '80%', height: 40 }}
             minimumValue={0.0001}
@@ -25,7 +22,7 @@ export default class Bright extends Component {
             minimumTrackTintColor="#FFFFFF"
             maximumTrackTintColor="#A72300"
             onValueChange={this.changeBrightAsync.bind(this)}
-            value={this.state.brightSliderBar}
+            value={this.props.brightSliderBar}
             onSlidingStart={this.onSlidingStartHandler}
             onSlidingComplete={this.onSlidingCompleteHandler}
           />
@@ -50,8 +47,9 @@ export default class Bright extends Component {
 
   async setBrightnessStateAsync() {
     const brightness = await Brightness.getSystemBrightnessAsync()
-    if (this.state.brightSystem !== brightness) {
-      this.setState({ brightSystem: brightness, brightSliderBar: brightness})
+    if (this.props.brightSystem !== brightness) {
+			this.props.setBrightSystem(brightness)
+			this.props.setBrightSliderBar(brightness)
     }
   }
 
@@ -64,7 +62,7 @@ export default class Bright extends Component {
   }
 
   async changeBrightAsync(value) {
-    this.setState({brightSystem: value})
+		this.props.setBrightSystem(value)
     const response = await Brightness.getPermissionsAsync()
     if (response.granted) {
       Brightness.setSystemBrightnessAsync(value)
@@ -110,3 +108,15 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').width,
   },
 });
+
+const mapStateToProps = state => ({
+	brightSystem: state.bright.system,
+	brightSliderBar: state.bright.sliderBar
+})
+
+const mapDispatchToProps = {
+	setBrightSystem,
+	setBrightSliderBar,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Bright)

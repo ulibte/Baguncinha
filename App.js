@@ -16,7 +16,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <View style={styles.container}>
-        <AppMenuNavigator isLogged={isLogged} setIsLogged={setIsLogged} />
+        <AppMenuNavigator />
       </View>
     </Provider>
   );
