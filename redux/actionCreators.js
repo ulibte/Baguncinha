@@ -1,5 +1,11 @@
 import * as actionTypes from "./actionTypes";
 
+export const setKeyTest = (payload) => ({
+    type: actionTypes.SET_KEY_TEST,
+    payload
+})
+
+
 export const userIsLogged = isLogged => ({
     type: actionTypes.USER_IS_LOGGED,
     payload: isLogged,
@@ -38,6 +44,33 @@ export const setDisableRollButton = (payload) => ({
     type: actionTypes.SET_DISABLE_ROLL_BUTTON,
     payload
 })
+
+export const setWord = (payload) => ({
+    type: actionTypes.SET_WORD,
+    payload
+})
+
+export const setMaxSize = (payload) => ({
+    type: actionTypes.SET_MAX_SIZE,
+    payload
+})
+
+export const setMinSize = (payload) => ({
+    type: actionTypes.SET_MIN_SIZE,
+    payload
+})
+
+export const setOptionMax = (payload) => ({
+    type: actionTypes.SET_OPTION_MAX,
+    payload
+})
+
+export const setOptionMin = (payload) => ({
+    type: actionTypes.SET_OPTION_MIN,
+    payload
+})
+
+
 
 
 

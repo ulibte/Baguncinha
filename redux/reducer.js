@@ -1,6 +1,12 @@
 import { combineReducers } from 'redux'
 import * as actionTypes from './actionTypes'
 
+const keyTestReducer = (state = 1, {type, payload}) => {
+	if(type === actionTypes.SET_KEY_TEST)
+		return payload
+	return state
+}
+
 const loggedReducer = (state = false, action) => {
 	if (action.type === actionTypes.USER_IS_LOGGED) {
 		state = action.payload
@@ -60,7 +66,38 @@ const disableRollButtonReducer = (state = false, action) => {
 	return state
 }
 
+const wordReducer = (state = '', {type, payload}) => {
+	if(type === actionTypes.SET_WORD)
+		return payload
+	return state
+}
+
+const maxSizeReducer = (state = 5, {type, payload}) => {
+	if(type === actionTypes.SET_MAX_SIZE)
+		return payload
+	return state
+}
+
+const minSizeReducer = (state = 2, {type, payload}) => {
+	if(type === actionTypes.SET_MIN_SIZE)
+		return payload
+	return state
+}
+
+const optionMaxReducer = (state = 5, {type, payload}) => {
+	if(type === actionTypes.SET_OPTION_MAX)
+		return payload
+	return state
+}
+
+const optionMinReducer = (state = 2, {type, payload}) => {
+	if(type === actionTypes.SET_OPTION_MIN)
+		return payload
+	return state
+}
+
 const reducer = combineReducers({
+	keyTest: keyTestReducer,
 	logged: loggedReducer,
 	bright: combineReducers({
 		system: brightSystemReducer,
@@ -71,7 +108,14 @@ const reducer = combineReducers({
 		diceMax: diceMaxReducer,
 		resultsSections: resultsSectionsReducer,
 		disableRollButton: disableRollButtonReducer
-	})
+	}),
+	randomWord: combineReducers({
+		word: wordReducer,
+		maxSize: maxSizeReducer,
+		minSize: minSizeReducer,
+		optionMax: optionMaxReducer,
+		optionMin: optionMinReducer,
+	}),
 })
 
 export default reducer

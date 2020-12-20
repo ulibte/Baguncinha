@@ -84,10 +84,6 @@ class Bright extends Component {
 
 }
 
-Bright.propTypes = {
-  navigation: PropTypes.object,
-}
-
 const styles = StyleSheet.create({
   vBrilho: {
     flex: 1,
@@ -108,6 +104,14 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').width,
   },
 });
+
+Bright.propTypes = {
+  navigation: PropTypes.object,
+  brightSystem: PropTypes.number,
+  
+  setBrightSystem: PropTypes.func,
+  setBrightSliderBar: PropTypes.func,
+}
 
 const mapStateToProps = state => ({
 	brightSystem: state.bright.system,

@@ -4,9 +4,7 @@ import { Button, KeyboardAvoidingView, StyleSheet, Text, TextInput } from 'react
 import { connect } from 'react-redux'
 import BackMenu from '../components/BackMenu'
 import ResultList from '../components/ResultList'
-import { setDiceResult, setDiceMax, updateResultsSections, setDisableRollButton } from '../redux/actionCreators'
-
-let keyResult = 0
+import { setDiceResult, setDiceMax, updateResultsSections, setDisableRollButton, setKeyTest } from '../redux/actionCreators'
 
 class Dice extends Component {
 
@@ -36,11 +34,12 @@ class Dice extends Component {
 	}
 
 	roll() {
+		this.props.setKeyTest(this.props.keyTest + 1)
 		const max = Number(this.props.diceMax)
 		const { resultsSections } = this.props
 		const result = Math.floor(Math.random() * max) + 1; //dice random number
 		this.props.setDiceResult(result)
-		const resultData = { result, key: ++keyResult }
+		const resultData = { result, key: this.props.keyTest }
 		this.props.updateResultsSections({
 			currentSections: resultsSections,
 			max,
@@ -66,10 +65,6 @@ class Dice extends Component {
 
 }
 
-Dice.propTypes = {
-	navigation: PropTypes.object.isRequired,
-}
-
 const styles = StyleSheet.create({
 	container: {
 		flexGrow: 1,
@@ -93,7 +88,27 @@ const styles = StyleSheet.create({
 	},
 })
 
+Dice.propTypes = {
+	navigation: PropTypes.object.isRequired,
+	keyTest: PropTypes.number,
+	diceResult: PropTypes.number,
+	diceMax: PropTypes.number,
+	resultsSections: PropTypes.arrayOf(
+		PropTypes.shape({
+			title: PropTypes.string,
+			data: PropTypes.array
+		})
+	),
+	
+	setKeyTest: PropTypes.func,
+	setDiceResult: PropTypes.func,
+	setDiceMax: PropTypes.func,
+	updateResultsSections: PropTypes.func,
+	setDisableRollButton: PropTypes.func,
+}
+
 const mapStateToProps = state => ({
+	keyTest: state.keyTest,
 	diceResult: state.dice.diceResult,
 	diceMax: state.dice.diceMax,
 	resultsSections: state.dice.resultsSections,
@@ -102,6 +117,7 @@ const mapStateToProps = state => ({
 
 
 const mapDispatchToProps = {
+	setKeyTest,
 	setDiceResult,
 	setDiceMax,
 	updateResultsSections,

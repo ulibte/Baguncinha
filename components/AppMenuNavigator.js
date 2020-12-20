@@ -20,12 +20,12 @@ const AppMenuNavigator = props => (
           <AppStack.Screen name="Menu" component={MenuScreen} />
           <AppStack.Screen name="Bright" component={Bright} />
           <AppStack.Screen name="Dice" component={Dice} />
-          <AppStack.Screen name="RWord" component={RandomWord} initialParams={{ max: 5, min: 2 }} />
+          <AppStack.Screen name="RWord" component={RandomWord} />
           <AppStack.Screen name="RWordOp" component={WordOptions} />
         </AppStack.Navigator>)
         :
         (<AppStack.Navigator >
-          <AppStack.Screen name="Login" component={LoginScreen} initialParams={{ setIsLogged: props.userIsLogged }} />
+          <AppStack.Screen name="Login" component={LoginScreen}/>
         </AppStack.Navigator>)
     }
   </NavigationContainer>
