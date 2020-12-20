@@ -37,17 +37,26 @@ const diceMaxReducer = (state = 6, action) => {
 	return state
 }
 
-const resultsSectionsReducer = (state = [{ title: '', data: [] },], action) => {
+const resultsSectionsReducer = (state = [{ title: '---', data: [] },], action) => {
 	if (action.type === actionTypes.UPDATE_RESULTS_SECTIONS) {
-
+		let {currentSections, max, result} = action.payload
+		if(currentSections[0].title === `d${max}`){
+			currentSections[0].data.unshift(result)
+			return currentSections
+		} else {
+			currentSections.unshift({title: `d${max}`, data: [result]})
+			return currentSections
+		}
 	}
+
 	return state
 }
 
 const disableRollButtonReducer = (state = false, action) => {
-	if (action.type = actionTypes.DISABLE_ROLL_BUTTON) {
-
+	if (action.type === actionTypes.SET_DISABLE_ROLL_BUTTON) {
+		return action.payload
 	}
+
 	return state
 }
 
@@ -61,7 +70,7 @@ const reducer = combineReducers({
 		diceResult: diceResultReducer,
 		diceMax: diceMaxReducer,
 		resultsSections: resultsSectionsReducer,
-		disableRollButton: disableRollButtonReducer,
+		disableRollButton: disableRollButtonReducer
 	})
 })
 

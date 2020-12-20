@@ -34,8 +34,8 @@ export const updateResultsSections = (payload) => ({
     payload
 })
 
-export const disableRollButton = (payload) => ({
-    type: actionTypes.DISABLE_ROLL_BUTTON,
+export const setDisableRollButton = (payload) => ({
+    type: actionTypes.SET_DISABLE_ROLL_BUTTON,
     payload
 })
 

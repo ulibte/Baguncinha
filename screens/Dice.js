@@ -1,91 +1,69 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Button, KeyboardAvoidingView, StyleSheet, Text, TextInput } from 'react-native'
+import { connect } from 'react-redux'
 import BackMenu from '../components/BackMenu'
 import ResultList from '../components/ResultList'
+import { setDiceResult, setDiceMax, updateResultsSections, setDisableRollButton } from '../redux/actionCreators'
 
 let keyResult = 0
 
 class Dice extends Component {
-	state = {
-		diceResult: 0,
-		diceMax: 6,
-		resultsSections: [{ title: '', data: [] },],
-		disableRollButton: false,
-	}
 
 	render() {
 		return (
 			<BackMenu pop={this.props.navigation.pop}>
 				<KeyboardAvoidingView behavior='padding' style={styles.container}>
 					<Text style={styles.text} >{'Resultado'}</Text>
-					<Text style={styles.result}>{this.state.diceResult}</Text>
-					<Button disabled={this.state.disableRollButton}
+					<Text style={styles.result}>{this.props.diceResult}</Text>
+					<Button disabled={this.props.disableRollButton}
 						color={'red'} title={'   Lançar   '} onPress={this.roll.bind(this)} />
 					<Text style={styles.text}>Número de lados</Text>
 
 					<TextInput style={{ ...styles.text, ...styles.textInput }}
 						keyboardType={'numeric'}
 						onChangeText={this.changeMax}
-						value={String(this.state.diceMax)} />
+						value={String(this.props.diceMax)} />
 
 					<Text style={styles.text}>Histórico</Text>
-					<ResultList resultsSections={this.state.resultsSections} />
+					<ResultList resultsSections={this.props.resultsSections} />
 				</KeyboardAvoidingView>
 			</BackMenu>
 		)
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		if (prevState.diceMax != this.state.diceMax) {
-			this.validateDiceMax(this.state.diceMax)
-		}
-
+	componentDidMount() {
 	}
 
 	roll() {
-		const max = Number(this.state.diceMax)
-		const { resultsSections } = this.state
+		const max = Number(this.props.diceMax)
+		const { resultsSections } = this.props
 		const result = Math.floor(Math.random() * max) + 1; //dice random number
-		const resultData = { result: result, key: ++keyResult }
-
-		this.setState({ diceResult: result });
-		this.setState({
-			resultsSections:
-				addNewResult(resultsSections, resultData, max)
-		}) //creating a result object for the retults array
+		this.props.setDiceResult(result)
+		const resultData = { result, key: ++keyResult }
+		this.props.updateResultsSections({
+			currentSections: resultsSections,
+			max,
+			result : resultData
+		})
 	}
 
-	getHandler = key => inputNumber => {
-		this.setState({ [key]: inputNumber }, () => {null /* console.log(`key=${key}, value=${inputNumber}`) */ })
+/* 	getHandler = key => inputNumber => {
+		this.setState({ [key]: inputNumber }, () => { null })
 	}
-
-	changeMax = this.getHandler('diceMax')
-
-	changeMax(inputNumber) {
-		const diceMax = inputNumber
-		this.setState({ diceMax },)
-
+	changeMax = this.getHandler('diceMax') */
+	changeMax = inputNumber => {
+		this.validateDiceMax(inputNumber)
+		this.props.setDiceMax(inputNumber)
 	}
 
 	validateDiceMax = x => {
 		if (x >= 2 && Number.isInteger(Number(x)))
-			this.setState({ disableRollButton: false })
+			this.props.setDisableRollButton(false)
 		else
-			this.setState({ disableRollButton: true })
+			this.props.setDisableRollButton(true)
 	}
 
-
-
-}
-
-const addNewResult = (array, result, max) => {
-	if (array[0].title === `d${max}`) {
-		return [{ title: array[0].title, data: [result, ...array[0].data] },
-		...array.slice(1)]
-	} else {
-		return [{ title: `d${max}`, data: [result] }, ...array]
-	}
 }
 
 Dice.propTypes = {
@@ -115,5 +93,19 @@ const styles = StyleSheet.create({
 	},
 })
 
+const mapStateToProps = state => ({
+	diceResult: state.dice.diceResult,
+	diceMax: state.dice.diceMax,
+	resultsSections: state.dice.resultsSections,
+	disableRollButton: state.dice.disableRollButton
+})
 
-export default Dice
+
+const mapDispatchToProps = {
+	setDiceResult,
+	setDiceMax,
+	updateResultsSections,
+	setDisableRollButton,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dice)
