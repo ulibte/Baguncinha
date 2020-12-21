@@ -9,18 +9,10 @@ import { setWord, setMaxSize, setMinSize } from '../redux/actionCreators'
 class RandomWord extends Component {
 
 	static propTypes = {
-		/* route: PropTypes.shape({
-			params: PropTypes.object
-		}) */
 		word: PropTypes.string,
-		maxSize: PropTypes.oneOfType([
-			PropTypes.string,
-			PropTypes.number
-		]),
-		minSize: PropTypes.oneOfType([
-			PropTypes.string, 
-			PropTypes.number
-		]),
+		maxSize: PropTypes.number,
+		minSize: PropTypes.number,
+
 		setWord: PropTypes.func,
 		setMaxSize: PropTypes.func,
 		setMinSize: PropTypes.func,

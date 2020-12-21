@@ -92,7 +92,10 @@ Dice.propTypes = {
 	navigation: PropTypes.object.isRequired,
 	keyTest: PropTypes.number,
 	diceResult: PropTypes.number,
-	diceMax: PropTypes.number,
+	diceMax: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+	]),
 	resultsSections: PropTypes.arrayOf(
 		PropTypes.shape({
 			title: PropTypes.string,
