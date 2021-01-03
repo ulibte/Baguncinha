@@ -15,3 +15,8 @@ export const SET_MAX_SIZE = 'SET_MAX_SIZE'
 export const SET_MIN_SIZE = 'SET_MIN_SIZE'
 export const SET_OPTION_MAX = 'SET_OPTION_MAX'
 export const SET_OPTION_MIN = 'SET_OPTION_MIN'
+
+export const LOG_IN_SENT = 'LOG_IN_SENT'
+export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS'
+export const LOG_IN_FAILURE = 'LOG_IN_FAILURE'
+export const LOG_IN_DEBUG = 'LOG_IN_DEBUG'

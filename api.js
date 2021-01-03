@@ -1,21 +1,28 @@
-import { LogBox } from "react-native";
 
 
-export const login = async (username, password) => {
+
+export const login = async (userName, password) => {
     const response = await fetch('http://10.0.2.2:3000/login', {//Android team make 10.0.2.2 be the localhost
         method: 'POST',
         headers: {'content-type': "application/json",},
-        body: JSON.stringify({username, password}), //coco é verdade
+        body: JSON.stringify({userName, password}), //coco é verdade
     })
-    const responseText = await response.text()
-    console.log(responseText);
-    const statusCode = await response.status
+    const responseOk = await response.ok
+    console.log('responseOk: ', responseOk);
+    if(responseOk){
+        const responseJson = await response.json()
+        return responseJson.token
+    }
+
+    const responseErrorText = await response.text()
+    throw new Error(responseErrorText)
+    /* const statusCode = await response.status
     if(statusCode === 200){
         return true
     }else{
         throw new Error(responseText)
-    }
-}
+    }*/
+} 
 
 export async function getRandomWord(maxSize = 5, minSize = 2){
     const uri = `http://10.0.2.2:3000/randomWord?${'max='+maxSize}&${'min='+minSize}`

@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import PropTypes from 'prop-types'
 import MenuScreen from '../screens/MenuScreen';
 import Dice from '../screens/Dice';
 import Bright from '../screens/Bright';
@@ -15,7 +16,7 @@ const AppStack = createStackNavigator()
 const AppMenuNavigator = props => (
   <NavigationContainer>
     {
-      props.logged ?
+      props.token ?
         (<AppStack.Navigator screenOptions={{ headerShown: false, }}>
           <AppStack.Screen name="Menu" component={MenuScreen} />
           <AppStack.Screen name="Bright" component={Bright} />
@@ -31,8 +32,12 @@ const AppMenuNavigator = props => (
   </NavigationContainer>
 )
 
-const mapStateToProps = (state) => {
-  return ({ logged: state.logged })
+AppMenuNavigator.propTypes = {
+  token: PropTypes.string,
 }
+
+const mapStateToProps = state => ({
+  token: state.token,
+})
 
 export default connect(mapStateToProps)(AppMenuNavigator)

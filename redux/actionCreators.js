@@ -1,14 +1,9 @@
 import * as actionTypes from "./actionTypes";
+import { login } from '../api'
 
 export const setKeyTest = (payload) => ({
     type: actionTypes.SET_KEY_TEST,
     payload
-})
-
-
-export const userIsLogged = isLogged => ({
-    type: actionTypes.USER_IS_LOGGED,
-    payload: isLogged,
 })
 
 export const setBrightSystem = number => ({
@@ -24,7 +19,7 @@ export function setBrightSliderBar(number) {
 }
 
 export function setDiceResult(number) {
-    return({
+    return ({
         type: actionTypes.SET_DICE_RESULT,
         payload: number
     })
@@ -70,9 +65,33 @@ export const setOptionMin = (payload) => ({
     payload
 })
 
+// async action creator
+export function logInUser(userName, password) {
+    return async function (dispatch) {
+        dispatch({ type: actionTypes.LOG_IN_SENT })
+        try {
+            const token = await login(userName, password)
+            dispatch(logInSuccess(token))
+        } catch (error) {
+            dispatch(logInFailure(error.message))
+        }
+    }
+}
 
+export const logInSuccess = token => ({
+    type: actionTypes.LOG_IN_SUCCESS,
+    payload: token
+})
 
+export const logInFailure = errorMessage => ({
+    type: actionTypes.LOG_IN_FAILURE,
+    payload: errorMessage
+})
 
+export const loginDebug = () => ({
+    type: actionTypes.LOG_IN_DEBUG,
+    payload: 'debugToken',
+})
 
 
 

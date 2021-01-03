@@ -6,11 +6,11 @@ import { connect } from 'react-redux'
 import { setMaxSize, setMinSize, setOptionMax, setOptionMin } from '../redux/actionCreators'
 
 
-const WordOptions = (props) => {
+const WordOptions = props => {
 
 	const ConfirmHandler = () => {
 		const optionMax = Number(props.optionMax)
-		const optionMin = Number(props.optionMax)
+		const optionMin = Number(props.optionMin)
 		if (optionMax && optionMin) {
 			props.setMaxSize(Math.floor(optionMax))
 			props.setMinSize(Math.floor(optionMin))
