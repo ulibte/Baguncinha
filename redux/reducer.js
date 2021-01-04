@@ -105,7 +105,7 @@ const logInFailureReducer = (state = '', { type, payload }) => {
   return state
 }
 
-const reducer = combineReducers({
+const rootReducer = combineReducers({
   keyTest: keyTestReducer,
   token: logInSuccessReducer,
   loginErr: logInFailureReducer,
@@ -128,4 +128,4 @@ const reducer = combineReducers({
   }),
 })
 
-export default reducer
+export default rootReducer

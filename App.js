@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, StatusBar } from 'react-native';
 import { Provider } from 'react-redux'
-import store from './redux/store'
+import { store, persistor } from './redux/store'
 import AppMenuNavigator from "./components/AppMenuNavigator";
+import { PersistGate } from 'redux-persist/integration/react'
 
 
 export default function App() {
@@ -15,9 +16,11 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <View style={styles.container}>
-        <AppMenuNavigator />
-      </View>
+      <PersistGate loading={null} persistor={persistor}>
+        <View style={styles.container}>
+          <AppMenuNavigator />
+        </View>
+      </PersistGate>
     </Provider>
   );
 }
