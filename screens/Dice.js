@@ -61,7 +61,7 @@ class Dice extends Component {
 			this.props.setDisableRollButton(false)
 		else
 			this.props.setDisableRollButton(true)
-	}
+	} 
 
 }
 
@@ -103,7 +103,7 @@ Dice.propTypes = {
 		})
 	),
 	
-	setKeyTest: PropTypes.func,
+	setKeyTest: PropTypes.func, 
 	setDiceResult: PropTypes.func,
 	setDiceMax: PropTypes.func,
 	updateResultsSections: PropTypes.func,
