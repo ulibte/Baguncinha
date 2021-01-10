@@ -81,7 +81,7 @@ const optionMinReducer = (state = 2, { type, payload }) => {
   return state;
 };
 
-const logInSuccessReducer = (state = '', { type, payload }) => {
+const tokenReducer = (state = '', { type, payload }) => {
   if (type === actionTypes.LOG_IN_SUCCESS) {
     return payload;
   }
@@ -101,7 +101,7 @@ const logInFailureReducer = (state = '', { type, payload }) => {
 
 const rootReducer = combineReducers({
   keyTest: keyTestReducer,
-  token: logInSuccessReducer,
+  token: tokenReducer,
   loginErr: logInFailureReducer,
   bright: combineReducers({
     system: brightSystemReducer,

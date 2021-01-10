@@ -30,12 +30,12 @@ const AppMenuNavigator = ({ token }) => (
   </NavigationContainer>
 );
 
-AppMenuNavigator.propTypes = {
-  token: PropTypes.string,
-};
-
 AppMenuNavigator.defaultProps = {
   token: '',
+};
+
+AppMenuNavigator.propTypes = {
+  token: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
