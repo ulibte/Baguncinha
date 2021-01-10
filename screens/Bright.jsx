@@ -3,9 +3,7 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import * as Brightness from 'expo-brightness';
 import PropTypes from 'prop-types';
 import Slider from '@react-native-community/slider';
-import { connect } from 'react-redux';
 import BackMenu from '../components/BackMenu';
-import { setBrightSystem, setBrightSliderBar } from '../redux/actionCreators';
 
 const styles = StyleSheet.create({
   vBrilho: {
@@ -123,14 +121,4 @@ Bright.propTypes = {
   }).isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  brightSystem: state.bright.system,
-  brightSliderBar: state.bright.sliderBar,
-});
-
-const mapDispatchToProps = {
-  setBrightSystem,
-  setBrightSliderBar,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Bright);
+export default Bright;
