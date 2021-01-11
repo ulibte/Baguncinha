@@ -6,20 +6,6 @@ const keyTestReducer = (state = 1, { type, payload }) => {
   return state;
 };
 
-function brightSystemReducer(state = 0, action) {
-  if (action.type === actionTypes.SET_BRIGHT_SYSTEM) {
-    return action.payload;
-  }
-  return state;
-}
-
-const brightSliderBarReducer = (state = null, action) => {
-  if (action.type === actionTypes.SET_BRIGHT_SLIDER_BAR) {
-    return action.payload;
-  }
-  return state;
-};
-
 const diceResultReducer = (state = 0, action) => {
   if (action.type === actionTypes.SET_DICE_RESULT) {
     return action.payload;
@@ -103,10 +89,6 @@ const rootReducer = combineReducers({
   keyTest: keyTestReducer,
   token: tokenReducer,
   loginErr: logInFailureReducer,
-  bright: combineReducers({
-    system: brightSystemReducer,
-    sliderBar: brightSliderBarReducer,
-  }),
   dice: combineReducers({
     diceResult: diceResultReducer,
     diceMax: diceMaxReducer,

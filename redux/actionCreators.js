@@ -6,18 +6,6 @@ export const setKeyTest = (payload) => ({
   payload,
 });
 
-export const setBrightSystem = (number) => ({
-  type: actionTypes.SET_BRIGHT_SYSTEM,
-  payload: number,
-});
-
-export function setBrightSliderBar(number) {
-  return {
-    type: actionTypes.SET_BRIGHT_SLIDER_BAR,
-    payload: number,
-  };
-}
-
 export function setDiceResult(number) {
   return {
     type: actionTypes.SET_DICE_RESULT,
