@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Alert } from 'react-native';
 import * as Brightness from 'expo-brightness';
 import PropTypes from 'prop-types';
 import Slider from '@react-native-community/slider';
@@ -30,33 +30,55 @@ class Bright extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      brightSystem: 0,
-      brightSliderBar: 0,
+      brightSystem: 0.5,
+      brightSliderBar: 0.5,
     };
+
+    this.changeBrightAsync = this.changeBrightAsync.bind(this);
+    this.setBrightnessStateAsync = this.setBrightnessStateAsync.bind(this);
   }
 
-  componentDidMount() {
-    this.setBrightnessStateAsync();
-    this.intervalBrightness = setInterval(this.setBrightnessStateAsync.bind(this), 1000);
-    // this.update = 0;
+  async componentDidMount() {
+    const { navigation } = this.props;
+    const response = await Brightness.getPermissionsAsync();
+    if (response.granted) {
+      this.setBrightnessStateAsync();
+      this.intervalBrightness = setInterval(this.setBrightnessStateAsync, 1000);
+    } else {
+      Alert.alert(
+        'Erro', // title
+        'Sem permissão', // message
+        [
+          // buttons
+          {
+            text: 'Sair',
+            style: 'destructive',
+            onPress: navigation.pop(1),
+          },
+          {
+            text: 'Permitir',
+            style: 'default',
+            onPress: Brightness.requestPermissionsAsync,
+          },
+        ],
+        {
+          // options
+          cancelable: true,
+        }
+      );
+    }
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalBrightness);
   }
 
-  /* componentDidUpdate() {
-    console.log('componentDidUpdate ' + ++this.update);
-  } */
-
   async setBrightnessStateAsync() {
-    const { brightSystem, brightSliderBar } = this.state;
+    const { brightSystem } = this.state;
     const brightness = await Brightness.getSystemBrightnessAsync();
     if (brightSystem !== brightness) {
-      this.setState({ brightSystem, brightSliderBar });
+      this.setState({ brightSystem: brightness, brightSliderBar: brightness });
     }
-
-    this.changeBrightAsync.bind(this);
   }
 
   onSlidingStartHandler = () => {
@@ -64,18 +86,21 @@ class Bright extends Component {
   };
 
   onSlidingCompleteHandler = () => {
-    this.intervalBrightness = setInterval(this.setBrightnessStateAsync.bind(this), 1000);
+    this.intervalBrightness = setInterval(this.setBrightnessStateAsync, 1000);
   };
 
   transformNumberBright = (number) => {
-    let newNumber = number * 100;
-    newNumber = Math.floor(number);
-    return `${newNumber}%`;
+    /* let newNumber = number * 100;
+    newNumber = Math.floor(newNumber);
+    return `${newNumber}%`; */
+    let numberString = number.toFixed(2);
+    numberString = String(numberString);
+    return numberString;
   };
 
   async changeBrightAsync(value) {
-    const { brightSystem } = this.state;
-    this.setState({ brightSystem });
+    const { navigation } = this.props;
+    this.setState({ brightSystem: value });
     const response = await Brightness.getPermissionsAsync();
     if (response.granted) {
       Brightness.setSystemBrightnessAsync(value);
@@ -84,7 +109,27 @@ class Bright extends Component {
       if (granted) {
         Brightness.setSystemBrightnessAsync(value);
       } else {
-        alert('Sem permissão');
+        Alert.alert(
+          'Erro', // title
+          'Sem permissão', // message
+          [
+            // buttons
+            {
+              text: 'Sair',
+              style: 'destructive',
+              onPress: navigation.pop(1),
+            },
+            {
+              text: 'Permitir',
+              style: 'default',
+              onPress: Brightness.requestPermissionsAsync,
+            },
+          ],
+          {
+            // options
+            cancelable: true,
+          }
+        );
       }
     }
   }
@@ -100,7 +145,7 @@ class Bright extends Component {
           <Text style={styles.text}>{this.transformNumberBright(brightSystem)}</Text>
           <Slider
             style={{ width: '80%', height: 40 }}
-            minimumValue={0.0001}
+            minimumValue={0}
             maximumValue={1}
             minimumTrackTintColor="#FFFFFF"
             maximumTrackTintColor="#A72300"
