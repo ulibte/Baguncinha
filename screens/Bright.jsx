@@ -39,34 +39,8 @@ class Bright extends Component {
   }
 
   async componentDidMount() {
-    const { navigation } = this.props;
-    const response = await Brightness.getPermissionsAsync();
-    if (response.granted) {
-      this.setBrightnessStateAsync();
-      this.intervalBrightness = setInterval(this.setBrightnessStateAsync, 1000);
-    } else {
-      Alert.alert(
-        'Erro', // title
-        'Sem permissão', // message
-        [
-          // buttons
-          {
-            text: 'Sair',
-            style: 'destructive',
-            onPress: navigation.pop(1),
-          },
-          {
-            text: 'Permitir',
-            style: 'default',
-            onPress: Brightness.requestPermissionsAsync,
-          },
-        ],
-        {
-          // options
-          cancelable: true,
-        }
-      );
-    }
+    this.setBrightnessStateAsync();
+    this.intervalBrightness = setInterval(this.setBrightnessStateAsync, 1000);
   }
 
   componentWillUnmount() {

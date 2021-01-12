@@ -23,11 +23,6 @@ export const updateResultsSections = (payload) => ({
   payload,
 });
 
-export const setDisableRollButton = (payload) => ({
-  type: actionTypes.SET_DISABLE_ROLL_BUTTON,
-  payload,
-});
-
 export const setWord = (payload) => ({
   type: actionTypes.SET_WORD,
   payload,

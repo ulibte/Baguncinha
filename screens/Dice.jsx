@@ -8,7 +8,6 @@ import {
   setDiceResult,
   setDiceMax,
   updateResultsSections,
-  setDisableRollButton,
   setKeyTest,
 } from '../redux/actionCreators';
 
@@ -36,14 +35,51 @@ const styles = StyleSheet.create({
 });
 
 class Dice extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      disableRollButton: false,
+    };
+
+    this.roll = this.roll.bind(this);
+  }
+
+  componentDidMount() {
+    const { diceMax } = this.props;
+    this.validateDiceMax(diceMax);
+  }
+
+  /* 	getHandler = key => inputNumber => {
+		this.setState({ [key]: inputNumber }, () => { null })
+	}
+	changeMax = this.getHandler('diceMax') */
+
+  changeMax = (inputNumber) => {
+    const { setDiceMaxConnect } = this.props;
+    this.validateDiceMax(inputNumber);
+    setDiceMaxConnect(inputNumber);
+  };
+
+  validateDiceMax = (x) => {
+    if (x >= 2 && Number.isInteger(Number(x))) this.setState({ disableRollButton: false });
+    else this.setState({ disableRollButton: true });
+  };
+
   roll() {
-    this.props.setKeyTest(this.props.keyTest + 1);
-    const max = Number(this.props.diceMax);
+    const {
+      setKeyTestConnect,
+      setDiceResultConnect,
+      updateResultsSectionsConnect,
+      diceMax,
+      keyTest,
+    } = this.props;
+    setKeyTestConnect(keyTest + 1);
+    const max = Number(diceMax);
     const { resultsSections } = this.props;
     const result = Math.floor(Math.random() * max) + 1; // dice random number
-    this.props.setDiceResult(result);
-    const resultData = { result, key: this.props.keyTest };
-    this.props.updateResultsSections({
+    setDiceResultConnect(result);
+    const resultData = { result, key: keyTest };
+    updateResultsSectionsConnect({
       currentSections: resultsSections,
       max,
       result: resultData,
@@ -52,17 +88,19 @@ class Dice extends Component {
 
   render() {
     const { navigation } = this.props;
+    const { diceResult, diceMax, resultsSections } = this.props;
+    const { disableRollButton } = this.state;
 
     return (
       <BackMenu pop={navigation.pop}>
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <Text style={styles.text}>Resultado</Text>
-          <Text style={styles.result}>{this.props.diceResult}</Text>
+          <Text style={styles.result}>{diceResult}</Text>
           <Button
-            disabled={this.props.disableRollButton}
+            disabled={disableRollButton}
             color="red"
             title="   Lançar   "
-            onPress={this.roll.bind(this)}
+            onPress={this.roll}
           />
           <Text style={styles.text}>Número de lados</Text>
 
@@ -70,50 +108,46 @@ class Dice extends Component {
             style={{ ...styles.text, ...styles.textInput }}
             keyboardType="numeric"
             onChangeText={this.changeMax}
-            value={String(this.props.diceMax)}
+            value={String(diceMax)}
           />
 
           <Text style={styles.text}>Histórico</Text>
-          <ResultList resultsSections={this.props.resultsSections} />
+          <ResultList resultsSections={resultsSections} />
         </KeyboardAvoidingView>
       </BackMenu>
     );
   }
-
-  componentDidMount() {}
-
-  /* 	getHandler = key => inputNumber => {
-		this.setState({ [key]: inputNumber }, () => { null })
-	}
-	changeMax = this.getHandler('diceMax') */
-  changeMax = (inputNumber) => {
-    this.validateDiceMax(inputNumber);
-    this.props.setDiceMax(inputNumber);
-  };
-
-  validateDiceMax = (x) => {
-    if (x >= 2 && Number.isInteger(Number(x))) this.props.setDisableRollButton(false);
-    else this.props.setDisableRollButton(true);
-  };
 }
 
+Dice.defaultProps = {
+  diceResult: 1,
+  diceMax: 6,
+  resultsSections: [{ title: '---', data: [] }],
+};
+
 Dice.propTypes = {
-  navigation: PropTypes.object.isRequired,
-  keyTest: PropTypes.number,
+  navigation: PropTypes.shape({
+    pop: PropTypes.func.isRequired,
+  }).isRequired,
+  keyTest: PropTypes.number.isRequired,
   diceResult: PropTypes.number,
   diceMax: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   resultsSections: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string,
-      data: PropTypes.array,
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          result: PropTypes.number,
+          key: PropTypes.number,
+        })
+      ),
     })
   ),
 
-  setKeyTest: PropTypes.func,
-  setDiceResult: PropTypes.func,
-  setDiceMax: PropTypes.func,
-  updateResultsSections: PropTypes.func,
-  setDisableRollButton: PropTypes.func,
+  setKeyTestConnect: PropTypes.func.isRequired,
+  setDiceResultConnect: PropTypes.func.isRequired,
+  setDiceMaxConnect: PropTypes.func.isRequired,
+  updateResultsSectionsConnect: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -121,15 +155,13 @@ const mapStateToProps = (state) => ({
   diceResult: state.dice.diceResult,
   diceMax: state.dice.diceMax,
   resultsSections: state.dice.resultsSections,
-  disableRollButton: state.dice.disableRollButton,
 });
 
 const mapDispatchToProps = {
-  setKeyTest,
-  setDiceResult,
-  setDiceMax,
-  updateResultsSections,
-  setDisableRollButton,
+  setKeyTestConnect: setKeyTest,
+  setDiceResultConnect: setDiceResult,
+  setDiceMaxConnect: setDiceMax,
+  updateResultsSectionsConnect: updateResultsSections,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dice);

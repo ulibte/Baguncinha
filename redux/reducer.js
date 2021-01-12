@@ -23,20 +23,13 @@ const diceMaxReducer = (state = 6, action) => {
 const resultsSectionsReducer = (state = [{ title: '---', data: [] }], action) => {
   if (action.type === actionTypes.UPDATE_RESULTS_SECTIONS) {
     const { currentSections, max, result } = action.payload;
+    const newSections = currentSections;
     if (currentSections[0].title === `d${max}`) {
-      currentSections[0].data.unshift(result);
-      return currentSections;
+      newSections[0].data.unshift(result);
+      return newSections;
     }
-    currentSections.unshift({ title: `d${max}`, data: [result] });
-    return currentSections;
-  }
-
-  return state;
-};
-
-const disableRollButtonReducer = (state = false, action) => {
-  if (action.type === actionTypes.SET_DISABLE_ROLL_BUTTON) {
-    return action.payload;
+    newSections.unshift({ title: `d${max}`, data: [result] });
+    return newSections;
   }
 
   return state;
@@ -93,7 +86,6 @@ const rootReducer = combineReducers({
     diceResult: diceResultReducer,
     diceMax: diceMaxReducer,
     resultsSections: resultsSectionsReducer,
-    disableRollButton: disableRollButtonReducer,
   }),
   randomWord: combineReducers({
     word: wordReducer,
