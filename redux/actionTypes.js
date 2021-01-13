@@ -6,7 +6,6 @@ export const SET_DICE_RESULT = 'SET_DICE_RESULT';
 export const SET_DICE_MAX = 'SET_DICE_MAX';
 export const UPDATE_RESULTS_SECTIONS = 'UPDATE_RESULTS_SECTIONS';
 
-export const SET_WORD = 'SET_WORD';
 export const SET_MAX_SIZE = 'SET_MAX_SIZE';
 export const SET_MIN_SIZE = 'SET_MIN_SIZE';
 export const SET_OPTION_MAX = 'SET_OPTION_MAX';

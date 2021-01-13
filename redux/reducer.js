@@ -35,11 +35,6 @@ const resultsSectionsReducer = (state = [{ title: '---', data: [] }], action) =>
   return state;
 };
 
-const wordReducer = (state = '', { type, payload }) => {
-  if (type === actionTypes.SET_WORD) return payload;
-  return state;
-};
-
 const maxSizeReducer = (state = 5, { type, payload }) => {
   if (type === actionTypes.SET_MAX_SIZE) return payload;
   return state;
@@ -88,7 +83,6 @@ const rootReducer = combineReducers({
     resultsSections: resultsSectionsReducer,
   }),
   randomWord: combineReducers({
-    word: wordReducer,
     maxSize: maxSizeReducer,
     minSize: minSizeReducer,
     optionMax: optionMaxReducer,

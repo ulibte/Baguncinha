@@ -23,11 +23,6 @@ export const updateResultsSections = (payload) => ({
   payload,
 });
 
-export const setWord = (payload) => ({
-  type: actionTypes.SET_WORD,
-  payload,
-});
-
 export const setMaxSize = (payload) => ({
   type: actionTypes.SET_MAX_SIZE,
   payload,
