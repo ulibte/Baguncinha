@@ -8,7 +8,7 @@ import {
   setDiceResult,
   setDiceMax,
   updateResultsSections,
-  setKeyTest,
+  setKeyInt,
 } from '../redux/actionCreators';
 
 const styles = StyleSheet.create({
@@ -67,18 +67,18 @@ class Dice extends Component {
 
   roll() {
     const {
-      setKeyTestConnect,
+      setKeyIntConnect,
       setDiceResultConnect,
       updateResultsSectionsConnect,
       diceMax,
-      keyTest,
+      keyInt,
+      resultsSections,
     } = this.props;
-    setKeyTestConnect(keyTest + 1);
+    setKeyIntConnect(keyInt + 1);
     const max = Number(diceMax);
-    const { resultsSections } = this.props;
     const result = Math.floor(Math.random() * max) + 1; // dice random number
     setDiceResultConnect(result);
-    const resultData = { result, key: keyTest };
+    const resultData = { result, key: keyInt };
     updateResultsSectionsConnect({
       currentSections: resultsSections,
       max,
@@ -122,14 +122,14 @@ class Dice extends Component {
 Dice.defaultProps = {
   diceResult: 1,
   diceMax: 6,
-  resultsSections: [{ title: '---', data: [] }],
+  resultsSections: [{ title: 'd6', data: [] }],
 };
 
 Dice.propTypes = {
   navigation: PropTypes.shape({
     pop: PropTypes.func.isRequired,
   }).isRequired,
-  keyTest: PropTypes.number.isRequired,
+  keyInt: PropTypes.number.isRequired,
   diceResult: PropTypes.number,
   diceMax: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   resultsSections: PropTypes.arrayOf(
@@ -144,21 +144,21 @@ Dice.propTypes = {
     })
   ),
 
-  setKeyTestConnect: PropTypes.func.isRequired,
+  setKeyIntConnect: PropTypes.func.isRequired,
   setDiceResultConnect: PropTypes.func.isRequired,
   setDiceMaxConnect: PropTypes.func.isRequired,
   updateResultsSectionsConnect: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  keyTest: state.keyTest,
+  keyInt: state.keyInt,
   diceResult: state.dice.diceResult,
   diceMax: state.dice.diceMax,
   resultsSections: state.dice.resultsSections,
 });
 
 const mapDispatchToProps = {
-  setKeyTestConnect: setKeyTest,
+  setKeyIntConnect: setKeyInt,
   setDiceResultConnect: setDiceResult,
   setDiceMaxConnect: setDiceMax,
   updateResultsSectionsConnect: updateResultsSections,

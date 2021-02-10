@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import * as actionTypes from './actionTypes';
 
-const keyTestReducer = (state = 1, { type, payload }) => {
-  if (type === actionTypes.SET_KEY_TEST) return payload;
+const keyIntReducer = (state = 1, { type, payload }) => {
+  if (type === actionTypes.SET_KEY_INT) return payload;
   return state;
 };
 
@@ -20,15 +20,16 @@ const diceMaxReducer = (state = 6, action) => {
   return state;
 };
 
-const resultsSectionsReducer = (state = [{ title: '---', data: [] }], action) => {
+const resultsSectionsReducer = (state = [{ title: 'd6', data: [] }], action) => {
   if (action.type === actionTypes.UPDATE_RESULTS_SECTIONS) {
-    const { currentSections, max, result } = action.payload;
+    const { currentSections, max: diceSides, result } = action.payload;
     const newSections = currentSections;
-    if (currentSections[0].title === `d${max}`) {
+
+    if (currentSections[0].title === `d${diceSides}`) {
       newSections[0].data.unshift(result);
       return newSections;
     }
-    newSections.unshift({ title: `d${max}`, data: [result] });
+    newSections.unshift({ title: `d${diceSides}`, data: [result] });
     return newSections;
   }
 
@@ -74,7 +75,7 @@ const logInFailureReducer = (state = '', { type, payload }) => {
 };
 
 const rootReducer = combineReducers({
-  keyTest: keyTestReducer,
+  keyInt: keyIntReducer,
   token: tokenReducer,
   loginErr: logInFailureReducer,
   dice: combineReducers({

@@ -1,40 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SectionList, View, Text, StyleSheet, Dimensions } from 'react-native';
+import { SectionList, View, Text, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   title: {
     color: 'orange',
     fontSize: 55,
-    width: Dimensions.get('screen').width * 0.9,
   },
-  contentContainer: {
-    backgroundColor: 'black',
-    alignItems: 'center',
-  },
-  result: {
+  itemText: {
     color: '#A72300',
     fontSize: 40,
   },
+  itemContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
   sectionList: {
-    // height: '50%',
-    // flex: 1, //default === flexGrow: 0, flexShrink: 1, flexBasis: 'auto'
-    flexBasis: 0, // try to let all the element min size the same
+    display: 'flex',
+    flexBasis: 0, // try to let all the element the same min size
+    // width: Dimensions.get('screen').width * 0.9,
   },
 });
 
-const ResultList = ({ resultsSections }) => (
+const ResultItem = ({ item: { result } }) => (
+  <View style={styles.itemContainer}>
+    <Text style={styles.itemText}>{`${result}, `}</Text>
+  </View>
+);
+
+const RenderSectionTitle = ({ section: { title } }) => <Text style={styles.title}>{title}</Text>;
+
+const ResultList = ({ resultsSections, keyInt }) => (
   <SectionList
     style={styles.sectionList}
-    contentContainerStyle={styles.contentContainer}
+    contentContainerStyle={null}
     sections={resultsSections}
-    renderItem={(data) => <ResultItem item={data.item} />}
-    renderSectionHeader={({ section }) => <RenderSectionTitle title={section.title} />}
+    renderItem={ResultItem}
+    renderSectionHeader={RenderSectionTitle}
+    // renderSectionFooter={RenderSectionTitle}
+    extraData={keyInt}
+    horizontal
+    stickySectionHeadersEnabled
   />
 );
 
 ResultList.defaultProps = {
-  resultsSections: [{ title: '---', data: [] }],
+  resultsSections: [{ title: 'd6', data: [] }],
 };
 
 ResultList.propTypes = {
@@ -49,20 +61,14 @@ ResultList.propTypes = {
       ),
     })
   ),
+  keyInt: PropTypes.number.isRequired,
 };
-
-const RenderSectionTitle = ({ title }) => <Text style={styles.title}>{title}</Text>;
 
 RenderSectionTitle.propTypes = {
-  title: PropTypes.string.isRequired,
+  section: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }).isRequired,
 };
-
-const ResultItem = ({ item }) => (
-  // same as: const {item} = props; or const item = props.item;
-  <View>
-    <Text style={styles.result}>{String(item.result)}</Text>
-  </View>
-);
 
 ResultItem.propTypes = {
   item: PropTypes.shape({
@@ -75,4 +81,4 @@ ResultItem.defaultProps = {
   item: { result: '', key: 0 },
 };
 
-export default ResultList;
+export default connect((state) => ({ keyInt: state.keyInt }))(ResultList);

@@ -1,4 +1,4 @@
-export const SET_KEY_TEST = 'SET_KEY_TEST';
+export const SET_KEY_INT = 'SET_KEY_INT';
 
 export const USER_IS_LOGGED = 'USER_IS_LOGGED';
 

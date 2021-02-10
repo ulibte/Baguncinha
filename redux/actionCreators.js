@@ -1,8 +1,8 @@
 import * as actionTypes from './actionTypes';
 import { login } from '../api';
 
-export const setKeyTest = (payload) => ({
-  type: actionTypes.SET_KEY_TEST,
+export const setKeyInt = (payload) => ({
+  type: actionTypes.SET_KEY_INT,
   payload,
 });
 
